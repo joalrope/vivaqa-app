@@ -57,7 +57,7 @@ export const updateQuestionnaire = async (req: Request, res: Response) => {
     if (!curQuestionnaire) {
       return res.status(404).json({
         ok: false,
-        msg: `There is no product with id: ${req.params.id}`,
+        msg: `There is not product with id: ${req.params.id}`,
       });
     }
 
