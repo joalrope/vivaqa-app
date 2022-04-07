@@ -1,12 +1,59 @@
-import { Schema, model } from 'mongoose';
+import { Schema, model, Document } from 'mongoose';
 
-interface IQa {
+interface IQuestionnaire extends Document {
   code: string;
   title: string;
   category: string;
+  questions: IQuestions;
 }
 
-const qaSchema = new Schema<IQa>(
+interface IQuestions extends Document {
+  title: string;
+  mode: string;
+  options: IOptions;
+}
+
+interface IOptions extends Document {
+  descrip: string;
+  value: boolean;
+}
+
+const qaType = Object.freeze({
+  ss: 'Selección Simple',
+  sm: 'Selección Múltiple',
+  vf: 'Verdadero o falso',
+  nm: 'Númerico',
+  rk: 'ranking',
+});
+
+const enumType = Object.values(qaType);
+
+const optionsSchema = new Schema<IOptions>({
+  descrip: {
+    type: String,
+    required: true,
+  },
+  value: {
+    type: Boolean,
+    required: true,
+  },
+});
+
+const questionsSchema = new Schema<IQuestions>({
+  title: {
+    type: String,
+    required: true,
+  },
+  mode: {
+    type: String,
+    enum: enumType,
+    default: qaType.ss,
+    required: true,
+  },
+  options: [optionsSchema],
+});
+
+const questionnaireSchema = new Schema<IQuestionnaire>(
   {
     code: {
       type: String,
@@ -21,17 +68,18 @@ const qaSchema = new Schema<IQa>(
       type: String,
       required: true,
     },
+    questions: [questionsSchema],
   },
   {
     timestamps: true,
   }
 );
 
-qaSchema.method('toJSON', function () {
+questionnaireSchema.method('toJSON', function () {
   const { _id, ...object } = this.toObject();
   const id = _id;
   const key = _id;
   return { id, key, ...object };
 });
 
-export const Qa = model<IQa>('Qa', qaSchema);
+export const Questionnaire = model<IQuestionnaire>('Questionnaire', questionnaireSchema);
