@@ -4,15 +4,15 @@ import { fieldsValidator } from '../middlewares/fields-validator';
 import { jwtValidator } from '../middlewares/jwt-validator';
 import { getUsers, createUser, userLogin, revalidateToken } from '../controllers/auth';
 
-export const user = Router();
+export const userRouter = Router();
 /*
     Rutas de Usuarios / Auth
     host + api/auth
 */
 
-user.get('/', [], getUsers);
+userRouter.get('/', [], getUsers);
 
-user.post(
+userRouter.post(
   '/new',
   [
     //middleware
@@ -31,7 +31,7 @@ user.post(
   createUser
 );
 
-user.post(
+userRouter.post(
   '/',
   [
     //middleware
@@ -48,6 +48,6 @@ user.post(
   userLogin
 );
 
-user.get('/renew', jwtValidator, revalidateToken);
+userRouter.get('/renew', jwtValidator, revalidateToken);
 
 //module.exports = router;

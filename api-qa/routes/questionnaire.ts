@@ -1,4 +1,4 @@
-const router = require('express').Router();
+import { Router } from 'express';
 import { check } from 'express-validator';
 import { fieldsValidator } from '../middlewares/fields-validator';
 import { jwtValidator } from '../middlewares/jwt-validator';
@@ -11,15 +11,17 @@ import {
   deleteQuestionnaire,
 } from '../controllers/questionnaire';
 
-router.use(jwtValidator);
+export const questionnaireRouter = Router();
 
-router.get('/code/:code', getQuestionnaireByCode);
+questionnaireRouter.use(jwtValidator);
 
-router.get('/', getQuestionnaires);
+questionnaireRouter.get('/code/:code', getQuestionnaireByCode);
 
-router.get('/page/:page/size/:size', getQuestionnaires);
+questionnaireRouter.get('/', getQuestionnaires);
 
-router.post(
+questionnaireRouter.get('/page/:page/size/:size', getQuestionnaires);
+
+questionnaireRouter.post(
   '/',
   [
     check('code').exists().withMessage('El Codigo es Obligatorio'),
@@ -29,8 +31,8 @@ router.post(
   createQuestionnaire
 );
 
-router.get('/:id', getQuestionnaireById);
+questionnaireRouter.get('/:id', getQuestionnaireById);
 
-router.put('/:id', updateQuestionnaire);
+questionnaireRouter.put('/:id', updateQuestionnaire);
 
-router.delete('/:id', deleteQuestionnaire);
+questionnaireRouter.delete('/:id', deleteQuestionnaire);

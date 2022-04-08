@@ -1,8 +1,9 @@
-import express, { Express, Request, Response } from 'express';
+import express, { Express  } from 'express';
 import cors from 'cors';
 import { config } from 'dotenv';
 import { dbConnection } from './database/config';
-import { user } from './routes/auth';
+import { userRouter } from './routes/auth';
+import { questionnaireRouter } from './routes/questionnaire';
 
 config();
 
@@ -13,13 +14,11 @@ app.use(cors());
 app.use(express.static('public'));
 app.use(express.json());
 
-app.use('/api/auth', user);
+app.use('/api/auth', userRouter);
+app.use('/api/questionnaire', questionnaireRouter);
 
-/* app.get('/', (req: Request, res: Response) => {
-  res.send('Express + TypeScript Server');
-}); */
 const port = process.env.PORT;
 
 app.listen(port, () => {
-  console.log(`⚡️[server]: Server is running at https://localhost:${process.env.PORT}`);
+  console.log(`⚡️[server]: Servidor corriendo en https://localhost:${process.env.PORT}`);
 });
