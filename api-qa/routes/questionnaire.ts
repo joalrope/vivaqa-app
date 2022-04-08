@@ -2,25 +2,23 @@ const router = require('express').Router();
 import { check } from 'express-validator';
 import { fieldsValidator } from '../middlewares/fields-validator';
 import { jwtValidator } from '../middlewares/jwt-validator';
-import { getQas, getQaByCode, getQaById, createQa, updateQa, deleteQa } from '../controllers/questionnaire';
-/*
-    Rutas de Qaos (qas routes)
-    host + api/qas
-*/
+import {
+  getQuestionnaires,
+  getQuestionnaireByCode,
+  getQuestionnaireById,
+  createQuestionnaire,
+  updateQuestionnaire,
+  deleteQuestionnaire,
+} from '../controllers/questionnaire';
 
-//Obtener un Qaos cuya expresion regular coincida con Code
-router.get('/code/:code', getQaByCode);
-
-//Todas las rutas deben pasar por la Validacion del Token
 router.use(jwtValidator);
 
-//Obtener productos
-router.get('/', getQas);
+router.get('/code/:code', getQuestionnaireByCode);
 
-//Obtener pagina de productos
-router.get('/page/:page/size/:size', getQas);
+router.get('/', getQuestionnaires);
 
-//Crear un nuevo producto
+router.get('/page/:page/size/:size', getQuestionnaires);
+
 router.post(
   '/',
   [
@@ -28,16 +26,11 @@ router.post(
     check('title').exists().withMessage('El Titulo es Obligatorio'),
     fieldsValidator,
   ],
-  createQa
+  createQuestionnaire
 );
 
-//Obtener un Qao mediante Id
-router.get('/:id', getQaById);
+router.get('/:id', getQuestionnaireById);
 
-//Actualizar informacion de un Qao
-router.put('/:id', updateQa);
+router.put('/:id', updateQuestionnaire);
 
-//Eliminar un Qao
-router.delete('/:id', deleteQa);
-
-module.exports = router;
+router.delete('/:id', deleteQuestionnaire);
