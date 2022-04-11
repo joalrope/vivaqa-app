@@ -1,6 +1,6 @@
 import { Schema, model, Document } from 'mongoose';
 
-interface IQuestionnaire extends Document {
+interface IQuiz extends Document {
   code: string;
   title: string;
   category: string;
@@ -53,7 +53,7 @@ const questionsSchema = new Schema<IQuestions>({
   options: [optionsSchema],
 });
 
-const questionnaireSchema = new Schema<IQuestionnaire>(
+const quizSchema = new Schema<IQuiz>(
   {
     code: {
       type: String,
@@ -75,11 +75,11 @@ const questionnaireSchema = new Schema<IQuestionnaire>(
   }
 );
 
-questionnaireSchema.method('toJSON', function () {
+quizSchema.method('toJSON', function () {
   const { _id, ...object } = this.toObject();
   const id = _id;
   const key = _id;
   return { id, key, ...object };
 });
 
-export const Questionnaire = model<IQuestionnaire>('Questionnaire', questionnaireSchema);
+export const Quiz = model<IQuiz>('Quiz', quizSchema);

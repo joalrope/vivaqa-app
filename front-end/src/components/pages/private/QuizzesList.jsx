@@ -1,11 +1,9 @@
 import React from 'react';
 //import PropTypes from 'prop-types';
 
-export const Billing = () => {
+export const QuizzesList = () => {
   return (
-    <div>
-      <h1>Facturación</h1>
-    </div>
+    <h2>Lista de Cuestionarios</h2>
   );
 };
 

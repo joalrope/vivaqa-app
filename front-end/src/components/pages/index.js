@@ -1,8 +1,13 @@
 import { NotFound } from './public/notfound/NotFound';
+import { Home } from './public/home/Home';
 import { About } from './public/about/About';
 import { Login } from './public/auth/login/Login1';
 import { Register } from './public/auth/register/Register1.jsx';
-import { Contact } from './public/contact/Contact';
-import { Home } from './public/home/Home';
+import { QuizzesList } from './private/QuizzesList';
+import { QuestionList } from './private/QuestionList';
+import { Preview } from './private/Preview';
+import { Play } from './private/Play';
+import { CreateQuiz } from './private/CreateQuiz';
+import { CreateQuestion } from './private/CreateQuestion';
 
-export { NotFound, About, Login, Register, Contact, Home };
+export { Home, About, Login, Register, QuizzesList, QuestionList, Preview, Play, CreateQuiz, CreateQuestion, NotFound };

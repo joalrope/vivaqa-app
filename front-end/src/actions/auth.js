@@ -1,6 +1,5 @@
 import { types } from '../types/types';
 import { fetchWithoutToken, fetchWithToken } from '../helpers/fetch';
-import history from '../helpers/history';
 import { Modal } from 'antd';
 
 export const startLogin = (email, password) => {
@@ -18,7 +17,6 @@ export const startLogin = (email, password) => {
 
       sessionStorage.token = token;
       sessionStorage.isLogged = true;
-      history.push('/home');
       dispatch(checkingFinish());
     } else {
       dispatch(checkingFinish());

@@ -2,14 +2,15 @@ import { types } from '../types/types';
 import { parseJwt } from '../helpers/parse-jwt';
 
 const { uid, name } = parseJwt();
-const isLoggedIn = uid && name;
+const isLoggedIn = uid && name ? true : false;
 
 const initialState = {
-  checking: false,
-  uid: null || uid,
-  name: null || name,
+  uid: uid || null,
+  name: name || null,
   isLoggedIn,
+  checking: false,
 };
+
 export const authReducer = (state = initialState, action) => {
   switch (action.type) {
     case types.authlogin:

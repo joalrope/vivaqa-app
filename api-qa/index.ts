@@ -1,9 +1,9 @@
-import express, { Express  } from 'express';
+import express, { Express } from 'express';
 import cors from 'cors';
 import { config } from 'dotenv';
 import { dbConnection } from './database/config';
 import { userRouter } from './routes/auth';
-import { questionnaireRouter } from './routes/questionnaire';
+import { quizRouter } from './routes/quiz';
 
 config();
 
@@ -15,7 +15,7 @@ app.use(express.static('public'));
 app.use(express.json());
 
 app.use('/api/auth', userRouter);
-app.use('/api/questionnaire', questionnaireRouter);
+app.use('/api/quiz', quizRouter);
 
 const port = process.env.PORT;
 

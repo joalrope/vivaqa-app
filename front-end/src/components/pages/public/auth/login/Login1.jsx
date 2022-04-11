@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Button, Checkbox, Col, Form, Input, Row } from 'antd';
 import { MailOutlined, LockOutlined } from '@ant-design/icons';
+import { useCookies } from 'react-cookie';
 import { startLogin } from '../../../../../actions/auth';
 import history from '../../../../../helpers/history';
 import './login.scss';
@@ -11,10 +12,17 @@ export const Login = () => {
   const dispatch = useDispatch();
   const [form] = Form.useForm();
   const [remember, setRemember] = useState(false);
+  const [cookies, setCookie] = useCookies(['email', 'password']);
 
   const onFinish = ({ email, password }) => {
     dispatch(startLogin(email, password));
+
+    if (remember) {
+      setCookie('email', email, { path: '/' });
+      setCookie('Password', password, { path: '/' });
+    }
     form.resetFields();
+    history.push('/quizzes');
   };
 
   const onChangeRemember = () => {
@@ -36,21 +44,31 @@ export const Login = () => {
                 name='normal_login'
                 form={form}
                 className='--login-form'
-                initialValues={{ remember: { remember } }}
-                autoComplete='true'
+                initialValues={{ email: cookies.email, password: cookies.password, remember: { remember } }}
+                autoComplete='off'
                 onFinish={onFinish}
               >
                 <h2 className='--login-form__title'>Iniciar Sesión</h2>
                 <Form.Item
                   name='email'
+                  autoComplete='off'
                   rules={[{ required: true, message: 'Por Favor ingrese su dirección de correo!' }]}
                 >
-                  <Input prefix={<MailOutlined className='site-form-item-icon' />} placeholder='Correo' />
+                  <Input
+                    prefix={<MailOutlined className='site-form-item-icon' />}
+                    autoComplete='new-email'
+                    placeholder='Correo'
+                  />
                 </Form.Item>
-                <Form.Item name='password' rules={[{ required: true, message: 'Por Favor ingrese la contraseña!' }]}>
+                <Form.Item
+                  name='password'
+                  autoComplete='off'
+                  rules={[{ required: true, message: 'Por Favor ingrese la contraseña!' }]}
+                >
                   <Input
                     prefix={<LockOutlined className='site-form-item-icon' />}
                     type='password'
+                    autoComplete='new-password'
                     placeholder='Contraseña'
                   />
                 </Form.Item>
