@@ -11,4 +11,13 @@ export const types = {
 
   uiStartLoading: '[ui] Start loading',
   uiFinishLoading: '[ui] Finish loading',
+
+  quizSetActive: '[quiz] Set active',
+  quizClearActive: '[quiz] Clear active',
+  quizStartAddNew: '[quiz] Start add new',
+  quizAddNew: '[quiz] Add New',
+  quizUpdated: '[quiz] quiz updated',
+  quizDeleted: '[quiz] quiz deleted',
+  quizLoaded: '[quiz] Loaded quizzes',
+  quizClearQuizzesLoaded: '[quiz] clear Loaded quizzes',
 };

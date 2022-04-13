@@ -13,10 +13,24 @@ export const AppRouter = () => {
       {routes
         .filter((item) => (item.type === 'auth' && item.mode === mode) || item.type === mode)
         .map((route) => {
-          if (route.redirect) {
-            return <Redirect key={route.key} to={route.pathTo} />;
+          route.redirect && <Redirect key={route.key} to={route.pathTo} />;
+
+          if (route.scope === 'menu') {
+            return <Route key={route.key} path={route.path} component={route.component} />;
+          } else {
+            return (
+              <Route key={route.key} path={route.path}>
+                {route.component}
+                <Switch>
+                  {route.children.map((child) => (
+                    <Route key={route.key} path={child.path}>
+                      {child.component}
+                    </Route>
+                  ))}
+                </Switch>
+              </Route>
+            );
           }
-          return <Route key={route.key} path={route.path} component={route.component} />;
         })}
       <Route component={NotFound} />;
     </Switch>

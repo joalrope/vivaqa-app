@@ -8,7 +8,7 @@ const initialState = {
   uid: uid || null,
   name: name || null,
   isLoggedIn,
-  checking: false,
+  /*  checking: false, */
 };
 
 export const authReducer = (state = initialState, action) => {
@@ -19,7 +19,7 @@ export const authReducer = (state = initialState, action) => {
         ...action.payload,
       };
 
-    case types.authcheckingStart:
+    /* case types.authcheckingStart:
       return {
         ...state,
         checking: true,
@@ -29,7 +29,7 @@ export const authReducer = (state = initialState, action) => {
       return {
         ...state,
         checking: false,
-      };
+      }; */
 
     case types.authlogout:
       return {

@@ -15,7 +15,7 @@ app.use(express.static('public'));
 app.use(express.json());
 
 app.use('/api/auth', userRouter);
-app.use('/api/quiz', quizRouter);
+app.use('/api/quizzes', quizRouter);
 
 const port = process.env.PORT;
 

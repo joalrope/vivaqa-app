@@ -1,11 +1,12 @@
 import { types } from '../types/types';
 import { fetchWithoutToken, fetchWithToken } from '../helpers/fetch';
 import { Modal } from 'antd';
+import history from '../helpers/history';
 
 export const startLogin = (email, password) => {
   return async (dispatch) => {
-    dispatch(checkingStart());
-    const { ok, msg, token, uid, name } = await fetchWithoutToken('/auth', { email, password }, 'POST');
+    const { ok, msg, token, uid, name } = await dispatch(fetchWithoutToken('/auth', { email, password }, 'POST'));
+
     if (ok) {
       dispatch(
         login({
@@ -17,14 +18,15 @@ export const startLogin = (email, password) => {
 
       sessionStorage.token = token;
       sessionStorage.isLogged = true;
-      dispatch(checkingFinish());
+      history.push('/quizzes');
     } else {
-      dispatch(checkingFinish());
       Modal.error({
         title: 'Autenticacion',
         content: [`${msg}`],
         autoFocusButton: null,
       });
+      history.push('/home');
+      history.push('/login');
     }
   };
 };
@@ -37,7 +39,7 @@ export const startRegister = (name, email, password) => {
       token,
       uid,
       name: userName,
-    } = await fetchWithoutToken('/auth/new', { name, email, password }, 'POST');
+    } = await dispatch(fetchWithoutToken('/auth/new', { name, email, password }, 'POST'));
 
     if (ok) {
       sessionStorage.token = token;
@@ -64,7 +66,7 @@ export const startRegister = (name, email, password) => {
 export const startChecking = () => {
   return async (dispatch) => {
     if ('token' in sessionStorage) {
-      const { ok, token, uid, name } = await fetchWithToken('/auth/renew');
+      const { ok, token, uid, name } = await dispatch(fetchWithToken('/auth/renew'));
 
       if (ok) {
         sessionStorage.token = token;
@@ -82,7 +84,7 @@ export const startChecking = () => {
           })
         );
       } else {
-        dispatch(checkingFinish());
+        //dispatch(loadingFinish());
       }
     }
   };
@@ -111,14 +113,6 @@ export const startHideRegister = () => {
 const login = (user) => ({
   type: types.authlogin,
   payload: user,
-});
-
-const checkingStart = () => ({
-  type: types.authcheckingStart,
-});
-
-const checkingFinish = () => ({
-  type: types.authcheckingFinish,
 });
 
 const logout = () => ({

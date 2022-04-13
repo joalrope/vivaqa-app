@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 import { Layout, Menu, Col, Row, Space, Spin } from 'antd';
-import { AntDesignOutlined, FacebookFilled, GithubOutlined } from '@ant-design/icons';
+import { AntDesignOutlined, FacebookFilled, GithubOutlined, LinkedinFilled } from '@ant-design/icons';
 import { startLogout } from '../actions/auth';
 import { clearStore } from '../actions/ui';
 import history from '../helpers/history';
@@ -12,13 +12,13 @@ import './app-layout.css';
 import SubMenu from 'antd/lib/menu/SubMenu';
 
 const { Header, Footer, Content } = Layout;
-const style = { fontSize: '18px', color: '$primary', verticalAlign: 'middle' };
+const style = { fontSize: '18px', color: 'rgb(20, 0, 120)', verticalAlign: 'middle' };
 
 export const AppLayout = () => {
   const dispatch = useDispatch();
-  const { isLoggedIn, checking } = useSelector((state) => state.auth);
+  const { isLoggedIn /* , checking */ } = useSelector((state) => state.auth);
   const { loading } = useSelector((state) => state.ui);
-  const location = useLocation();
+  const { pathname } = useLocation();
 
   const handleClick = ({ key }) => {
     if (key === '/logout') {
@@ -34,24 +34,23 @@ export const AppLayout = () => {
     <Layout className='--main-layout__container'>
       <Layout className='--main-layout__right'>
         <Header>
-          {!isLoggedIn && (
-            <div className='--layout-header__logo'>
-              <div className='--app__logo'>Quiz App</div>
-            </div>
-          )}
-          <Menu theme='dark' mode='horizontal' selectedKeys={[location.pathname]} onClick={handleClick}>
+          <div className='--layout-header__logo'>
+            <div className='--app__logo'>Quiz App</div>
+          </div>
+          <Menu theme='dark' mode='horizontal' selectedKeys={[pathname]} onClick={handleClick}>
             {routes
               .filter((item) => (item.type === 'auth' && item.mode === mode) || item.type === mode)
               .map((route) =>
-                (route.scope) === 'menu' ? (
+                route.scope === 'menu' ? (
                   <Menu.Item key={route.path}>
-                    {route.name}
-                    <Link to={route.path} />
+                    <Link to={route.path}>{route.name}</Link>
                   </Menu.Item>
                 ) : (
                   <SubMenu key={route.key} title={route.name}>
-                    {route.children.map((children) => (
-                      <Menu.Item key={children.key}>{children.name}</Menu.Item>
+                    {route.children.map((child) => (
+                      <Menu.Item key={child.key}>
+                        <Link to={child.path}>{child.name}</Link>
+                      </Menu.Item>
                     ))}
                   </SubMenu>
                 )
@@ -59,13 +58,12 @@ export const AppLayout = () => {
           </Menu>
         </Header>
 
-        <Content className='--layout-content__container'>
-          {(checking || loading) && (
+          {loading && (
             <div className='--layout-content__spinner'>
               <Spin /* indicator={loadingIcon}  */ size='large' />
             </div>
           )}
-
+        <Content className='--layout-content__container'>
           <AppRouter />
         </Content>
         <Row>
@@ -86,6 +84,11 @@ export const AppLayout = () => {
                   {'  '}
                   <a href='https://github.com/joalrope' target='blank'>
                     <GithubOutlined style={style} />
+                  </a>
+                  {'  '}
+                  {'  '}
+                  <a href='https://www.linkedin.com/in/joalrope/' target='blank'>
+                    <LinkedinFilled style={style} />
                   </a>
                   {'  '}
                 </div>

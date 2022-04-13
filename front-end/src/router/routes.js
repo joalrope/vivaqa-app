@@ -7,8 +7,8 @@ import {
   Play,
   CreateQuestion,
   CreateQuiz,
-  /* QuestionList,
-  Preview,
+  QuestionList,
+  /*Preview,
   CreateQuiz,
   CreateQuestion,
   NotFound, */
@@ -93,7 +93,15 @@ export const routes = [
     type: 'private',
     name: 'Resultados',
     scope: 'submenu',
-    children: [],
+    children: [
+      {
+        key: '/options',
+        path: '/results/options',
+        type: 'private',
+        name: 'Lista de opciones',
+        component: QuestionList,
+      },
+    ],
   },
   {
     key: '/logout',
@@ -101,6 +109,7 @@ export const routes = [
     type: 'auth',
     mode: 'private',
     name: 'Salir',
+    scope: 'menu',
   },
-  { key: '/', path: '/', pathTo: '/home', redirect: true },
+  { key: '/', path: '/', scope: 'menu', pathTo: '/home', redirect: true },
 ];

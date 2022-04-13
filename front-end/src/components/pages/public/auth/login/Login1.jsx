@@ -12,7 +12,7 @@ export const Login = () => {
   const dispatch = useDispatch();
   const [form] = Form.useForm();
   const [remember, setRemember] = useState(false);
-  const [cookies, setCookie] = useCookies(['email', 'password']);
+  const [{email, password}, setCookie] = useCookies(['email', 'password']);
 
   const onFinish = ({ email, password }) => {
     dispatch(startLogin(email, password));
@@ -22,8 +22,9 @@ export const Login = () => {
       setCookie('Password', password, { path: '/' });
     }
     form.resetFields();
-    history.push('/quizzes');
   };
+
+
 
   const onChangeRemember = () => {
     setRemember(!remember);
@@ -35,7 +36,7 @@ export const Login = () => {
 
   return (
     <>
-      <div className='--login-page__body'></div>
+      {/* <div className='--login-page__body'></div> */}
       <div className='--login-page__container'>
         <Row justify='center'>
           <Col>
@@ -44,7 +45,7 @@ export const Login = () => {
                 name='normal_login'
                 form={form}
                 className='--login-form'
-                initialValues={{ email: cookies.email, password: cookies.password, remember: { remember } }}
+                initialValues={{ email, password, remember: { remember } }}
                 autoComplete='off'
                 onFinish={onFinish}
               >

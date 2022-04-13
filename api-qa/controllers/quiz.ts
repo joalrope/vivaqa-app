@@ -7,14 +7,14 @@ export const getQuizzes = async (req: Request, res: Response) => {
   const curSize = Number(size);
   try {
     const len = await Quiz.count({});
-    const result = await Quiz.find({}, { id: 1, key: 1, code: 1, title: 1, details: 1, replacement: 1 })
+    const result = await Quiz.find({}, { id: 1, key: 1, code: 1, title: 1, category: 1, questions: 1 })
       .sort('code')
       .limit(curSize)
       .skip((curPage - 1) * curSize);
 
     res.status(200).json({
       ok: true,
-      msg: 'Get products',
+      msg: 'Get quizzes',
       result: { len, result },
     });
   } catch (error) {

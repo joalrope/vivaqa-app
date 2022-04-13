@@ -7,9 +7,9 @@ export const clearStore = (dispatch) => {
 };
 
 export const loadingStart = () => ({
-  type: types.authcheckingStart,
+  type: types.uiStartLoading,
 });
 
 export const loadingFinish = () => ({
-  type: types.authcheckingFinish,
+  type: types.uiFinishLoading,
 });
